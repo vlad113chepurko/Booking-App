@@ -31,6 +31,16 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <pages.Dashboard />,
+    children: [
+      {
+        path: "meetings",
+        element: <pages.MeetingRooms />,
+      },
+      {
+        path: "bookings",
+        element: <pages.Bookings />,
+      },
+    ],
   }
 ]);
 
