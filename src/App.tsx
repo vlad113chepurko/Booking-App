@@ -1,8 +1,16 @@
 import "./App.css";
 import { Button } from "./components/ui/button";
 import { useNavigate } from "react-router";
+import { useEffect } from "react";
 function App() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      navigate("/dashboard");
+    }
+  }, [navigate]);
 
   return (
     <div className="app">

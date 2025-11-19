@@ -26,6 +26,9 @@ async function loginUser(email: string, password: string) {
       return null;
     }
 
+    const token = crypto.randomUUID();
+    localStorage.setItem("authToken", token);
+
     const user = querySnapshot.docs[0].data();
     console.log("User logged in:", user);
     return user;
