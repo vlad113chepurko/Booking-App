@@ -1,6 +1,6 @@
 import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
 import { db } from "./fireBaseConfig";
-import type { TUser } from "@/types/User.type";
+import type { TUser } from "@/types/user.types";
 
 async function addUserData(userData: TUser) {
   try {

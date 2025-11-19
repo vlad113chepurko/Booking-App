@@ -3,40 +3,46 @@ import { useNavigate } from "react-router";
 import { addUserData } from "@/firebase/fireBaseService";
 import { useForm } from "react-hook-form";
 import { nanoid } from "nanoid";
+import type { RegisterFormInput } from "@/types/auth.types";
+import { useError } from "@/hooks/useError";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { registerUserSchema } from "@/schemas/auth.schema";
+import { useEffect } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import "./Form.css";
+import type { TUser } from "@/types/user.types";
 
 export default function SignUp() {
+  const { handleError } = useError();
   const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
-    formState: { isLoading },
-  } = useForm<{
-    name: string;
-    email: string;
-    password: string;
-    role: "user" | "admin";
-    id: string;
-  }>();
+    formState: { errors, isSubmitting },
+  } = useForm<RegisterFormInput>({
+    resolver: zodResolver(registerUserSchema),
+  });
 
-  const onSubmit: SubmitHandler<{
-    name: string;
-    email: string;
-    password: string;
-    role: "user" | "admin";
-    id: string;
-  }> = (data) => {
-    data.id = nanoid();
-    data.role = "user";
-    console.log(data);
-    addUserData(data);
+  useEffect(() => {
+    console.log("errors =", errors);
+    handleError(errors);
+  }, [errors]);
+
+  const onSubmit: SubmitHandler<RegisterFormInput> = (data) => {
+    const userData: TUser = {
+      ...data,
+      id: nanoid(),
+      role: "user",
+    };
+
+    addUserData(userData);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="form__signup">
       <h1>Sign Up</h1>
+
       <section className="form__section">
         <ui.Label htmlFor="name">Name</ui.Label>
         <ui.Input
@@ -46,6 +52,7 @@ export default function SignUp() {
           placeholder="Name"
         />
       </section>
+
       <section className="form__section">
         <ui.Label htmlFor="email">Email</ui.Label>
         <ui.Input
@@ -55,6 +62,7 @@ export default function SignUp() {
           placeholder="Email"
         />
       </section>
+
       <section className="form__section">
         <ui.Label htmlFor="password">Password</ui.Label>
         <ui.Input
@@ -64,9 +72,11 @@ export default function SignUp() {
           placeholder="Password"
         />
       </section>
-      <ui.Button disabled={isLoading} variant="secondary" type="submit">
-        {isLoading ? <ui.Spinner /> : "Create Account"}
+
+      <ui.Button disabled={isSubmitting} variant="secondary" type="submit">
+        {isSubmitting ? <ui.Spinner /> : "Create Account"}
       </ui.Button>
+
       <section className="form__bottom">
         <ui.Button
           className="text-amber-50"
