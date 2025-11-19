@@ -1,72 +1,66 @@
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Label } from "@radix-ui/react-label";
+import { ui } from "@/components/ui/index";
 import { useNavigate } from "react-router";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { loginUser } from "@/firebase/fireBaseService";
+import type { SubmitHandler } from "react-hook-form";
 
 import "./Form.css";
 
 export default function Login() {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [name, setName] = useState<string>("");
   const navigate = useNavigate();
 
+  const {
+    register,
+    handleSubmit,
+    formState: { isLoading },
+  } = useForm<{ email: string; password: string }>();
+
+  const onSubmit: SubmitHandler<{
+    email: string;
+    password: string;
+  }> = (data) => {
+    console.log(data);
+    loginUser(data.email, data.password).then((user) => {
+      if (user) {
+        navigate("/dashboard");
+      } else {
+        alert("Invalid email or password");
+      }
+    });
+  };
+
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-      }}
-      className="form__signup"
-    >
+    <form onSubmit={handleSubmit(onSubmit)} className="form__signup">
       <h1>Login</h1>
       <section className="form__section">
-        <Label htmlFor="name">Name</Label>
-        <Input
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setName(e.target.value)
-          }
-          value={name}
-          id="name"
-          type="text"
-          placeholder="Name"
-        />
-      </section>
-      <section className="form__section">
-        <Label htmlFor="email">Email</Label>
-        <Input
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setEmail(e.target.value)
-          }
-          value={email}
+        <ui.Label htmlFor="email">Email</ui.Label>
+        <ui.Input
+          {...register("email")}
           id="email"
           type="email"
           placeholder="Email"
         />
       </section>
       <section className="form__section">
-        <Label htmlFor="password">Password</Label>
-        <Input
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setPassword(e.target.value)
-          }
-          value={password}
+        <ui.Label htmlFor="password">Password</ui.Label>
+        <ui.Input
+          {...register("password")}
           id="password"
           type="password"
           placeholder="Password"
         />
       </section>
-      <Button variant="secondary" type="submit">
-        Log in
-      </Button>
+      <ui.Button disabled={isLoading} variant="secondary" type="submit">
+        {isLoading ? <ui.Spinner /> : "Login"}
+      </ui.Button>
       <section className="form__bottom">
-        <Button
+        <ui.Button
           className="text-amber-50"
           variant="link"
           onClick={() => navigate("/form/register")}
         >
           Create an account
-        </Button>
+        </ui.Button>
       </section>
     </form>
   );

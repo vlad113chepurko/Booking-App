@@ -28,6 +28,10 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/dashboard",
+    element: <pages.Dashboard />,
+  }
 ]);
 
 const container = document.getElementById("root");
