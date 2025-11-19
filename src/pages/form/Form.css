@@ -1,0 +1,68 @@
+.form {
+  width: 100%;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  gap: 1rem;
+
+  font-family: "Montserrat", sans-serif;
+
+  background: #000;
+  color: white;
+}
+
+.form__container {
+  min-height: 400px;
+  min-width: 400px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #2e2e2e;
+
+  border-radius: 8px;
+}
+
+.form__section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.form__signup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  input {
+    padding: 10px;
+    height: 50px;
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  button {
+    width: 100%;
+    height: 50px;
+    cursor: pointer;
+  }
+}
+
+.form__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
