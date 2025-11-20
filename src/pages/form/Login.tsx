@@ -1,30 +1,21 @@
 import { ui } from "@/components/ui/index";
 import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
-import { loginUser } from "@/firebase/fireBaseService";
-import { useError } from "@/hooks/useError";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { loginUserSchema } from "@/schemas/auth.schema";
+import { loginUser } from "@/firebase/fireBaseAuth.service";
 import type { SubmitHandler } from "react-hook-form";
-import { useEffect } from "react";
 import type { LoginUserInput } from "@/types/auth.types";
 import "./Form.css";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { handleError } = useError();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = useForm<LoginUserInput>({
-    resolver: zodResolver(loginUserSchema),
+    mode: "onSubmit",
   });
-
-  useEffect(() => {
-    handleError(errors);
-  }, [errors]);
 
   const onSubmit: SubmitHandler<LoginUserInput> = async (data) => {
     try {
@@ -32,10 +23,10 @@ export default function Login() {
       if (user) {
         navigate("/dashboard");
       } else {
-        handleError({ email: { message: "Invalid email or password" } });
+        alert("Login failed. Please check your credentials.");
       }
     } catch (err: any) {
-      handleError({ email: { message: err.message || "Login failed" } });
+      console.error(err);
     }
   };
 

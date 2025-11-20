@@ -16,11 +16,3 @@ export const registerUserSchema = z.object({
     .min(6, ERRORS.PASSWORD_LENGTH)
     .max(20, ERRORS.PASSWORD_LENGTH),
 });
-
-export const loginUserSchema = z.object({
-  email: z.string().email(ERRORS.INVALID_EMAIL),
-  password: z
-    .string()
-    .min(6, ERRORS.PASSWORD_LENGTH)
-    .max(20, ERRORS.PASSWORD_LENGTH),
-});

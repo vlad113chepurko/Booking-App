@@ -1,6 +1,6 @@
 import { ui } from "@/components/ui/index";
 import { useNavigate } from "react-router";
-import { addUserData } from "@/firebase/fireBaseService";
+import { addUserData } from "@/firebase/fireBaseAuth.service";
 import { useForm } from "react-hook-form";
 import { nanoid } from "nanoid";
 import type { RegisterFormInput } from "@/types/auth.types";
@@ -36,6 +36,7 @@ export default function SignUp() {
       role: "user",
     };
 
+    navigate("/form/login");
     addUserData(userData);
   };
 
