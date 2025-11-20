@@ -3,4 +3,5 @@ export type TMeetings = {
   title: string;
   description: string;
   isBooked: boolean;
+  users: string[];
 };

@@ -1,4 +1,3 @@
-import "./MeetingRooms.css";
 import { ui } from "@/components/ui/index";
 import { useEffect, useState } from "react";
 import { useMeetings } from "@/store/useMeetings";
@@ -50,7 +49,15 @@ export default function MeetingRooms() {
   };
 
   return (
-    <div className="meeting">
+    <div
+      className="
+  flex justify-center items-center
+  flex-row flex-wrap
+  min-w-[1440px] min-h-[500px]
+  rounded-[15px]
+  bg-neutral-800
+"
+    >
       <MeetingModal setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} />
       <MeetingUpdateModal
         setIsModalUpdateOpen={setIsModalUpdateOpen}

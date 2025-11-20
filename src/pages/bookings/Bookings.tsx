@@ -2,14 +2,15 @@ import { ui } from "@/components/ui/index";
 import BookingModal from "./BookingModal";
 import { useState, useEffect } from "react";
 import BookingUpdateModal from "./BookingUpdateModal";
+import { searchUserByEmail } from "@/firebase/fireBaseAuth.service";
 import {
   getBookingData,
   removeBookingData,
 } from "@/firebase/fireBaseBooking.service";
 import { useBookingStore } from "@/store/useBooking";
-import "./Bookings.css";
 
 export default function Bookings() {
+  const [localRole, setLocalRole] = useState<string | null>(null);
   const { setBookings, bookings } = useBookingStore();
   const [isLoaded, setIsLoaded] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,6 +26,19 @@ export default function Bookings() {
     fetchBookings();
   }, [setBookings]);
 
+  useEffect(() => {
+    const email = localStorage.getItem("userEmail");
+    if (email) {
+      searchUserByEmail(email).then((user) => {
+        if (user) {
+          setLocalRole(user.role);
+        } else {
+          setLocalRole(null);
+        }
+      });
+    }
+  }, []);
+
   function removeBooking(bookingId: string) {
     removeBookingData(bookingId).then(() => {
       setBookings((prev) =>
@@ -39,7 +53,15 @@ export default function Bookings() {
   }
 
   return (
-    <div className="bookings">
+    <div
+      className="
+  flex flex-col flex-wrap
+  justify-center items-center
+  min-h-[500px] min-w-[1440px]
+  rounded-[15px]
+  bg-neutral-800
+"
+    >
       {!isLoaded ? (
         <div className="flex justify-center py-20">
           <ui.Spinner className="size-20" />
@@ -48,6 +70,7 @@ export default function Bookings() {
         <>
           <div className="flex justify-end mb-4">
             <ui.Button
+              disabled={localRole !== "admin"}
               className="cursor-pointer"
               variant="default"
               onClick={() => setIsModalOpen(true)}
@@ -80,6 +103,7 @@ export default function Bookings() {
                   </p>
 
                   <ui.Button
+                    disabled={localRole !== "admin"}
                     variant="destructive"
                     className="cursor-pointer"
                     onClick={() => removeBooking(booking.docId!)}
@@ -88,6 +112,7 @@ export default function Bookings() {
                   </ui.Button>
 
                   <ui.Button
+                    disabled={localRole !== "admin"}
                     variant="default"
                     className="ml-2"
                     onClick={() => handleEdit(booking)}

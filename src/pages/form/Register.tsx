@@ -30,6 +30,7 @@ export default function SignUp() {
   }, [errors]);
 
   const onSubmit: SubmitHandler<RegisterFormInput> = (data) => {
+    
     const userData: TUser = {
       ...data,
       id: nanoid(),

@@ -15,7 +15,7 @@ function App() {
   return (
     <div className="app">
       <h1>Home page</h1>
-      <p>That start work with To-do app, you must sign up</p>
+      <p>That start work with Booking app, you must sign up</p>
       <Button variant="secondary" onClick={() => navigate("/form/register")}>
         Get Started
       </Button>
