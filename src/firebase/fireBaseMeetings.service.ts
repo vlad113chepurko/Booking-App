@@ -4,6 +4,7 @@ import {
   doc,
   getDocs,
   addDoc,
+  setDoc
 } from "firebase/firestore";
 import { db } from "./fireBaseConfig";
 import type { TMeetings } from "@/types/meetings.types";
@@ -42,4 +43,14 @@ async function deleteMeetingData(meetingId: string) {
   }
 }
 
-export { addMeetingData, getAllMeetings, deleteMeetingData };
+async function updateMeetingData(mettingId: string, meetingData: Omit<TMeetings, "docId">) {
+  try {
+    const docRef = doc(db, "Meetings", mettingId);
+    await setDoc(docRef, meetingData, { merge: true });
+    console.log("Document successfully updated!");
+  } catch (e) {
+    console.error("Error updating document: ", e);
+  }
+}
+
+export { addMeetingData, getAllMeetings, deleteMeetingData, updateMeetingData };

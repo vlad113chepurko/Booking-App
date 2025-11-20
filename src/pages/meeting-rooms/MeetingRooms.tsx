@@ -8,11 +8,17 @@ import {
   deleteMeetingData,
 } from "@/firebase/fireBaseMeetings.service";
 import MeetingModal from "./MeetingModal";
+import MeetingUpdateModal from "./MeetingUpdateModal";
+import type { TMeetings } from "@/types/meetings.types";
 export default function MeetingRooms() {
   const { setIsSuccess, setSuccessMessage, setSuccessTitle } =
     useSuccessStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedMeeting, setSelectedMeeting] = useState<TMeetings | null>(
+    null
+  );
   const { setMeetings, meetings, removeMeeting } = useMeetings();
 
   useEffect(() => {
@@ -37,9 +43,19 @@ export default function MeetingRooms() {
     });
   }
 
+  const handleUpdateClick = (meeting: TMeetings) => {
+    setSelectedMeeting(meeting);
+    setIsModalUpdateOpen(true);
+  };
+
   return (
     <div className="meeting">
       <MeetingModal setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} />
+      <MeetingUpdateModal
+        setIsModalUpdateOpen={setIsModalUpdateOpen}
+        isModalUpdateOpen={isModalUpdateOpen}
+        meetingData={selectedMeeting!}
+      />
       <div>
         {isLoading ? null : (
           <ui.Button
@@ -68,7 +84,9 @@ export default function MeetingRooms() {
                 >
                   Delete
                 </ui.Button>
-                <ui.Button variant="default" className="mt-2 cursor-pointer">
+                <ui.Button 
+                onClick={() => handleUpdateClick(meeting)}
+                variant="default" className="mt-2 cursor-pointer">
                   Update
                 </ui.Button>
               </li>
