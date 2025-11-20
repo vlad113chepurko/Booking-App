@@ -9,12 +9,8 @@ import {
 import type { TBooking } from "@/types/booking.types";
 import { db } from "./fireBaseConfig";
 async function addBookingData(bookingData: TBooking) {
-  try {
-    const docRef = await addDoc(collection(db, "Bookings"), bookingData);
-    console.log("Document written with ID: ", docRef.id);
-  } catch (e) {
-    console.error("Error adding document: ", e);
-  }
+  const docRef = await addDoc(collection(db, "Bookings"), bookingData);
+  return docRef.id;
 }
 
 async function getBookingData() {

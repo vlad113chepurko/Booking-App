@@ -1,4 +1,5 @@
 import { Controller, useFormContext } from "react-hook-form";
+import { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -9,10 +10,22 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useMeetings } from "@/store/useMeetings";
+import { getAllMeetings } from "@/firebase/fireBaseMeetings.service";
 
 export default function SelectMeetings({ name }: { name: string }) {
-  const { meetings } = useMeetings();
+  const [meetingsState, setMeetingsState] = useState<any[]>([]);
   const { control } = useFormContext();
+
+  const { setMeetings } = useMeetings();
+
+  useEffect(() => {
+    async function fetchMeetings() {
+      const meetingsData = await getAllMeetings();
+      setMeetings(meetingsData);
+      setMeetingsState(meetingsData);
+    }
+    fetchMeetings();
+  }, []);
 
   return (
     <Controller
@@ -23,14 +36,12 @@ export default function SelectMeetings({ name }: { name: string }) {
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select a meeting" />
           </SelectTrigger>
-
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Meetings</SelectLabel>
-
-              {meetings.map((m) => (
-                <SelectItem key={m.docId} value={m.docId}>
-                  {m.title}
+              {meetingsState.map((meeting: any) => (
+                <SelectItem key={meeting.docId} value={meeting.docId}>
+                  {meeting.title}
                 </SelectItem>
               ))}
             </SelectGroup>

@@ -60,9 +60,10 @@ export default function BookingModal({
         m.docId === data.meetingId ? { ...m, isBooked: true } : m
       )
     );
-    setBookings((prev) => [...prev, { ...data, docId: data.meetingId }]);
 
-    await addBookingData(data);
+    const newId = await addBookingData(data);
+
+    setBookings((prev) => [...prev, { ...data, docId: newId }]);
 
     setSuccessTitle("Booking Added");
     setSuccessMessage("The booking has been added successfully.");
