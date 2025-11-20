@@ -1,5 +1,5 @@
 export type TMeetings = {
-  id: string;
+  docId: string;
   title: string;
   description: string;
-}
+};

@@ -12,18 +12,24 @@ async function getAllMeetings() {
   const meetingsCol = collection(db, "Meetings");
   const meetingsSnapshot = await getDocs(meetingsCol);
   const meetingsList = meetingsSnapshot.docs.map(
-    (doc) => ({ docId: doc.id, ...doc.data() } as TMeetings & { docId: string })
+    (doc) =>
+      ({
+        docId: doc.id,
+        ...doc.data(),
+      } as TMeetings)
   );
 
   return meetingsList;
 }
 
-async function addMeetingData(meetingData: TMeetings) {
+async function addMeetingData(meetingData: Omit<TMeetings, "docId">) {
   try {
     const docRef = await addDoc(collection(db, "Meetings"), meetingData);
     console.log("Document written with ID: ", docRef.id);
+    return docRef;
   } catch (e) {
-    console.error("Error adding document: ", e);
+    console.error(e);
+    throw e;
   }
 }
 

@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { addMeetingData } from "@/firebase/fireBaseMeetings.service";
 import { useMeetings } from "@/store/useMeetings";
 import type { TMeetings } from "@/types/meetings.types";
+import { useSuccessStore } from "@/store/useSuccessStore";
 
 interface MeetingModalProps {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,16 +16,27 @@ export default function MeetingModal({
   isModalOpen,
 }: MeetingModalProps) {
   const { setMeetings } = useMeetings();
+  const { setIsSuccess, setSuccessMessage, setSuccessTitle } =
+    useSuccessStore();
 
   const {
     register,
     handleSubmit,
     formState: { isSubmitting },
-  } = useForm<TMeetings>();
+  } = useForm<Omit<TMeetings, "docId">>();
 
-  const onSubmit = async (data: TMeetings) => {
-    await addMeetingData(data);
-    setMeetings([...useMeetings.getState().meetings, data]);
+  const onSubmit = async (data: Omit<TMeetings, "docId">) => {
+    const docRef = await addMeetingData(data);
+
+    setMeetings([
+      ...useMeetings.getState().meetings,
+      { ...data, docId: docRef.id },
+    ]);
+
+    setSuccessTitle("Meeting Added");
+    setSuccessMessage("The meeting has been added successfully.");
+    setIsSuccess(true);
+
     setIsModalOpen(false);
   };
 

@@ -21,7 +21,7 @@ export default function Login() {
     try {
       const user = await loginUser(data.email, data.password);
       if (user) {
-        navigate("/dashboard");
+        navigate("/dashboard/meetings");
       } else {
         alert("Login failed. Please check your credentials.");
       }
