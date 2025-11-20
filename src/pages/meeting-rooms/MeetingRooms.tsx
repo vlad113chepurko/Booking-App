@@ -35,12 +35,13 @@ export default function MeetingRooms() {
   }, [setMeetings]);
 
   function handleRemoveMeeting(id: string) {
-    setSuccessTitle("Meeting Deleted");
-    setSuccessMessage("The meeting has been deleted successfully.");
-    setIsSuccess(true);
     deleteMeetingData(id).then(() => {
       removeMeeting && removeMeeting(id);
     });
+
+    setSuccessTitle("Meeting Deleted");
+    setSuccessMessage("The meeting has been deleted successfully.");
+    setIsSuccess(true);
   }
 
   const handleUpdateClick = (meeting: TMeetings) => {
@@ -67,7 +68,7 @@ export default function MeetingRooms() {
           </ui.Button>
         )}
         {isLoading ? (
-          <ui.Spinner />
+          <ui.Spinner className="size-20" />
         ) : (
           <ul className="flex flex-row justify-center gap-5 flex-wrap">
             {meetings.map((meeting) => (
@@ -84,9 +85,11 @@ export default function MeetingRooms() {
                 >
                   Delete
                 </ui.Button>
-                <ui.Button 
-                onClick={() => handleUpdateClick(meeting)}
-                variant="default" className="mt-2 cursor-pointer">
+                <ui.Button
+                  onClick={() => handleUpdateClick(meeting)}
+                  variant="default"
+                  className="mt-2 cursor-pointer"
+                >
                   Update
                 </ui.Button>
               </li>

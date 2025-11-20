@@ -30,7 +30,7 @@ export default function MeetingModal({
 
     setMeetings([
       ...useMeetings.getState().meetings,
-      { ...data, docId: docRef.id },
+      { ...data, docId: docRef.id, isBooked: false },
     ]);
 
     setSuccessTitle("Meeting Added");

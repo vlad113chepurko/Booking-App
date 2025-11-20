@@ -3,7 +3,9 @@ import type { TMeetings } from "@/types/meetings.types";
 
 type MeetingsState = {
   meetings: TMeetings[];
-  setMeetings: (meetings: TMeetings[]) => void;
+  setMeetings: (
+    meetings: TMeetings[] | ((prev: TMeetings[]) => TMeetings[])
+  ) => void;
   removeMeeting: (docId: string) => void;
   updateMeeting: (
     docId: string,
@@ -13,7 +15,11 @@ type MeetingsState = {
 
 export const useMeetings = create<MeetingsState>((set) => ({
   meetings: [],
-  setMeetings: (meetings: TMeetings[]) => set({ meetings }),
+  setMeetings: (meetings) =>
+    set((state) => ({
+      meetings:
+        typeof meetings === "function" ? meetings(state.meetings) : meetings,
+    })),
   removeMeeting: (docId: string) =>
     set((state) => ({
       meetings: state.meetings.filter((m) => m.docId !== docId),
@@ -25,5 +31,3 @@ export const useMeetings = create<MeetingsState>((set) => ({
       ),
     })),
 }));
-
-

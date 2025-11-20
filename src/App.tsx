@@ -8,7 +8,7 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     if (token) {
-      navigate("/dashboard");
+      navigate("/dashboard/meetings");
     }
   }, [navigate]);
 

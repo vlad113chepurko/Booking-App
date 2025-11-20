@@ -23,20 +23,10 @@ export default function DashboardTabs() {
       className="dashboard-tabs"
     >
       <TabsList className="dashboard-tabs-list">
-        <TabsTrigger
-          className={`dashboard-tabs-trigger ${
-            selectedTab === "meetings" ? "dashboard-tabs-trigger-active" : ""
-          }`}
-          value="meetings"
-        >
+        <TabsTrigger className="dashboard-tabs-trigger" value="meetings">
           Meeting Rooms
         </TabsTrigger>
-        <TabsTrigger
-          className={`dashboard-tabs-trigger ${
-            selectedTab === "bookings" ? "dashboard-tabs-trigger-active" : ""
-          }`}
-          value="bookings"
-        >
+        <TabsTrigger className="dashboard-tabs-trigger" value="bookings">
           Bookings
         </TabsTrigger>
       </TabsList>

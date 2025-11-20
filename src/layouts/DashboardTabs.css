@@ -25,13 +25,8 @@
   color: white;
   padding: 20px;
   cursor: pointer;
-}
 
-.dashboard-tabs-trigger-active {
-  background: #171717;
-  color: white;
-  padding: 20px;
-  cursor: pointer;
-
-  border: 1px solid white;
+  &:hover {
+    background: #333333;
+  }
 }

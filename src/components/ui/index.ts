@@ -3,6 +3,7 @@ import { Button } from "./button";
 import { Input } from "./input";
 import { Spinner } from "./spinner";
 import { Textarea } from "./textarea";
+import { Calendar } from "lucide-react";
 
 export const ui = {
   Label,
@@ -10,4 +11,5 @@ export const ui = {
   Input,
   Spinner,
   Textarea,
+  Calendar,
 };
