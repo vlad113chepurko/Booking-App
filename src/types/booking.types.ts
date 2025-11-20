@@ -3,4 +3,5 @@ export type TBooking = {
   description: string;
   date: string;
   time: string;
+  docId?: string;
 }
